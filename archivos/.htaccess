@@ -1,0 +1,4 @@
+AuthName "Proteccion de archivos del SATMO"
+AuthType Basic
+AuthUserFile /home/calonso/.htpasswd
+Require valid-USER
