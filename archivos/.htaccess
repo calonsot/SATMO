@@ -1,4 +1,5 @@
+deny from all
 AuthName "Proteccion de archivos del SATMO"
 AuthType Basic
-AuthUserFile /home/calonso/.htpasswd
+AuthUserFile /home/root/.htpasswd
 Require valid-USER

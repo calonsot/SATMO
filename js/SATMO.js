@@ -17,14 +17,14 @@ function validaForma() {
 		$('label[for="temporalidades"]').removeClass("error");
 	}
 	if ($('#fecha_inicio').val() == "" || fecha_inicio < 20020701
-			|| fecha_inicio > 20121231 || fecha_inicio > fecha_fin) {
+			|| fecha_inicio > 20131231 || fecha_inicio > fecha_fin) {
 		$('label[for="fecha_inicio"]').addClass("error");
 		validacion = false;
 	} else {
 		$('label[for="fecha_inicio"]').removeClass("error");
 	}
 	if ($('#fecha_fin').val() == "" || fecha_fin < 20020701
-			|| fecha_fin > 20121231 || fecha_inicio > fecha_fin) {
+			|| fecha_fin > 20131231 || fecha_inicio > fecha_fin) {
 		$('label[for="fecha_fin"]').addClass("error");
 		validacion = false;
 	} else {
@@ -36,6 +36,12 @@ function validaForma() {
 	} else {
 		$('label[for="nombre"]').removeClass("error");
 	}
+        if ($('#institucion').val() == "") {
+                $('label[for="institucion"]').addClass("error");
+                validacion = false;
+        } else {
+                $('label[for="institucion"]').removeClass("error");
+        }
 	if ($('#correo').val() == "") {
 		$('label[for="correo"]').addClass("error");
 		validacion = false;
@@ -86,26 +92,26 @@ $(document).on(
 					});
 
 			$('#latitud_1').change(function() {
-				if (parseInt($(this).val()) > 33 || isNaN(parseInt(($(this).val())))) {
-					$(this).val(33);
+				if (parseFloat($(this).val()) > 33 || isNaN(parseFloat(($(this).val())))) {
+					$(this).val("33.0");
 				}
 			});
 
 			$('#latitud_2').change(function() {
-				if (parseInt($(this).val()) < 3 || isNaN(parseInt(($(this).val())))) {
-					$(this).val(3);
+				if (parseFloat($(this).val()) < 3 || isNaN(parseFloat(($(this).val())))) {
+					$(this).val("3.0");
 				}
 			});
 
 			$('#longitud_1').change(function() {
-				if (parseInt($(this).val()) < -122 || isNaN(parseInt(($(this).val())))) {
-					$(this).val(-122);
+				if (parseFloat($(this).val()) < -122 || isNaN(parseFloat(($(this).val())))) {
+					$(this).val("-122.0");
 				}
 			});
 
 			$('#longitud_2').change(function() {
-				if (parseInt($(this).val()) > -72 || isNaN(parseInt(($(this).val())))) {
-					$(this).val(-72);
+				if (parseFloat($(this).val()) > -72 || isNaN(parseFloat(($(this).val())))) {
+					$(this).val("-72.0");
 				}
 			});
 		});
