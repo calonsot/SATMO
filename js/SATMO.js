@@ -60,6 +60,11 @@ function validaForma() {
 			}
 		});
 	}
+	if ($('#objetivo').val() == '')
+	{
+		$('label[for="objetivo"]').addClass("error");
+		validacion = false;
+	}
 
 	if (validacion) {
 		return true;
@@ -81,15 +86,33 @@ $(document).on(
 						}).done(
 								function(opciones) {
 									if (opciones != "0") {
-										$('#temporalidades').empty().append(
+										$('#temporalidad').empty().append(
 												opciones)
 												.removeAttr('disabled');
 									} else {
-										$('#temporalidades').val('').attr(
+										$('#temporalidad').val('').attr(
 												'disabled', 'disabled');
 									}
 								});
 					});
+			
+			$('#temporalidad').change(
+					function() {
+						$.ajax({
+							url : "./acciones.php",
+							data : {
+								temporalidad : $(this).val()
+							}
+						}).done(
+								function(html) {
+									if (html != "0") {
+										$('#fecha').empty().html(html);
+									} else {
+										$('#fecha').empty();
+									}
+								});
+					});
+
 
 			$('#latitud_1').change(function() {
 				if (parseFloat($(this).val()) > 33 || isNaN(parseFloat(($(this).val())))) {

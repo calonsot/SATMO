@@ -201,14 +201,14 @@ select {
 		echo $SATMO->selectProductos();
 		?>
 		<br> <br>
-      <label for="temporalidades">Temporalidad: </label> <select id="temporalidades" name="temporalidad" disabled="disabled">
+      <label for="temporalidades">Temporalidad: </label> <select id="temporalidad" name="temporalidad" disabled="disabled">
 			<option value="">---Selecciona---</option>
 		</select>
-        <br> <br>
-        <span class="Mtextoimport">Seleccione la fecha o el período (dd/mm/aaaa)</span><br><label for="fecha_inicio">Desde: </label>
-		<input type="date" name="fecha_inicio" min="2002-07-01"
-			max="2012-12-31" id="fecha_inicio" value="2002-07-01"><label for="fecha_fin">Al: </label><input type="date" name="fecha_fin" min="2002-07-01"
-			max="2013-12-31" value="2013-12-31" id="fecha_fin"><br> <br>
+        
+        <p>
+        	<div id="fecha"></div>	
+		</p>
+		
 		<span class="Mtextoimport">Seleccione un &aacute;rea sobre el mapa o introduzca las coordenadas extremas:</span><br><span>Predeterminadas: Latitud N: (3 º y 33 º). Longitud W: (-122 º y -72 º)</span><br><label for="latitud_1">Latitud N: </label> <input
 			type="text" name="latitud_1" value="33.0"
 			id="latitud_1"> ºN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="longitud_1">Longitud W: </label> <input
@@ -224,7 +224,10 @@ select {
 		<br><br><label for="institucion">Instituci&oacute;n: </label><input type="text" name="institucion" id="institucion" maxlength="255" size="45" placeholder="escribe tu instituci&oacute;n .
 ..">
 		<br><br><label for="correo">Correo (para recibir instrucciones de descarga): </label><input type="email" name="correo" id="correo" maxlength="255" size="43" placeholder="escribe tu correo ...">
-
+		<p>
+			<label for="objetivo">Objetivo: </label>
+			<textarea name="objetivo" id="objetivo" rows="8" cols="60" placeholder="Escribe el objetivo que tendra la petición de tus datos ..."></textarea>
+		</p>
 		<br> <br>
         <div align="right"><input type="submit" value="ENVIAR SU SOLICITUD" onclick="return validaForma();" style="font-weight:bold"></div>
 	</form>
