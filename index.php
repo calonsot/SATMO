@@ -190,9 +190,7 @@ select {
 <body>
 	<?php 
 	if (!empty($_POST))
-	{
 		echo SATMO::validaForma($_POST);
-	}
 	?>
 	<form action="index.php" method="post" class="Utextos">
 

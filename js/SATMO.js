@@ -89,9 +89,11 @@ $(document).on(
 										$('#temporalidad').empty().append(
 												opciones)
 												.removeAttr('disabled');
+										$('#fecha').empty();
 									} else {
 										$('#temporalidad').val('').attr(
 												'disabled', 'disabled');
+										$('#fecha').empty();
 									}
 								});
 					});
@@ -111,6 +113,42 @@ $(document).on(
 										$('#fecha').empty();
 									}
 								});
+					});
+			
+			$(document).on('change', '#anio_inicio, #anio_fin',
+					function() {
+						if ($(this).val() == '2002')
+						{
+							var identificador = $(this).attr('id');
+							var numero = identificador.substring(5);
+							
+							if ($('#semana_inicio').val() == undefined || $('#semana_fin').val() == undefined)
+								var cual = 'mes';
+							else
+								var cual = 'semana';
+							
+							if (numero == 'inicio')
+								numero = 1
+							else
+								numero = 2
+							
+							$.ajax({
+								url : "./acciones.php",
+								data : 
+								{
+									anio : $(this).val(),
+									cual : cual,
+									numero: numero
+								}
+							}).done(
+								function(html) {
+									if (html != "0") {
+										$('#'+cual+'_'+identificador.substring(5)).replaceWith(html);
+									} else {
+										$('#fecha').empty();
+									}
+							});
+						}
 					});
 
 

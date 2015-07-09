@@ -36,10 +36,10 @@ class SATMO {
 		 */
 		$this->temporalidades_fechas = array(
 						'Pasos diarios' => array('tipo_fecha' => 'calendario', 'periodo' => array('inicio' => '2002-07-01', 'fin' => '2013-12-31')), 
-						'Compuestos de 8 días' => array('tipo_fecha' => 'semana', 'periodo' => array('inicio' => '2002-07-01', 'fin' => '2011-06-30')),
-						'Compuestos mensuales' => array('tipo_fecha' => 'anio', 'periodo' => array('inicio' => '2002-07-01', 'fin' => '2013-12-31')),
-						'Anomalías de Compuestos de 8 días' => array('tipo_fecha' => 'semana', 'periodo' => array('inicio' => '2002-07-01', 'fin' => '2009-06-30')),
-						'Anomalías de Compuestos mensuales' => array('tipo_fecha' => 'anio', 'periodo' => array('inicio' => '2002-07-01', 'fin' => '2009-06-30')),
+						'Compuestos de 8 días' => array('tipo_fecha' => 'anio-semana', 'periodo' => array('inicio' => '2002-07-01', 'fin' => '2011-06-30')),
+						'Compuestos mensuales' => array('tipo_fecha' => 'anio-mes', 'periodo' => array('inicio' => '2002-07-01', 'fin' => '2013-12-31')),
+						'Anomalías de Compuestos de 8 días' => array('tipo_fecha' => 'anio-semana', 'periodo' => array('inicio' => '2002-07-01', 'fin' => '2009-06-30')),
+						'Anomalías de Compuestos mensuales' => array('tipo_fecha' => 'anio-mes', 'periodo' => array('inicio' => '2002-07-01', 'fin' => '2009-06-30')),
 						'Climatologías de 8 días (Jul.2002-Jun.2009)' => array('tipo_fecha' => 'semana', 'periodo' => array('inicio' => '2002-07-01', 'fin' => '2009-06-30')),
 						'Climatologías mensuales (Jul.2002-Jun.2013)' => array('tipo_fecha' => 'mes', 'periodo' => array('inicio' => '2002-07-01', 'fin' => '2013-06-30')),
 						'Promedios Diarios' => array('tipo_fecha' => 'calendario', 'periodo' => array('inicio' => '2002-07-01', 'fin' => '2013-12-31'))
@@ -68,7 +68,8 @@ class SATMO {
 	}
 	
 	/**
-	 * Pone el calendario, las 46 semanas, los meses o un intervalo de anios.
+	 * Pone el calendario, las 46 semanas, los meses o un intervalo de anios, 
+	 * dependiendo de la temporalidad
 	 */
 	public function getFecha()
 	{
@@ -82,30 +83,71 @@ class SATMO {
 							<label for=\"fecha_fin\">Al: </label><input type=\"date\" name=\"fecha_fin\" min=\"".$datos['periodo']['inicio']."\"
 							max=\"".$datos['periodo']['fin']."\" value=\"".$datos['periodo']['fin']."\" id=\"fecha_fin\">";
 				break;
-			case 'anio':
-				$this->html =  "<span class=\"Mtextoimport\">Se tomarán en cuenta 12 meses a partir del periodo inicial que escojas:</span><br>";
-				$this->html.= $this->selectAnios(substr($datos['periodo']['inicio'], 0, 4), substr($datos['periodo']['fin'], 0, 4)).'<br>'.$this->selectMeses();
+			case 'anio-mes':
+				$this->html = "<span class=\"Mtextoimport\">Selecciona el año y el mes:</span><br>";
+				$this->html.= $this->selectAnios(substr($datos['periodo']['inicio'], 0, 4), substr($datos['periodo']['fin'], 0, 4), 1);
+				$this->html.= ' ';
+				$this->html.= $this->selectMeses(1);
+				$this->html.= '<br>';
+				$this->html.= $this->selectAnios(substr($datos['periodo']['inicio'], 0, 4), substr($datos['periodo']['fin'], 0, 4), 2);
+				$this->html.= ' ';
+				$this->html.= $this->selectMeses(2);
 				break;
+			case 'anio-semana':
+				$this->html = "<span class=\"Mtextoimport\">Selecciona el año y la semana:</span><br>";
+				$this->html.= $this->selectAnios(substr($datos['periodo']['inicio'], 0, 4), substr($datos['periodo']['fin'], 0, 4), 1);
+				$this->html.= ' ';
+				$this->html.= $this->selectSemanas(1);
+				$this->html.= '<br>';
+				$this->html.= $this->selectAnios(substr($datos['periodo']['inicio'], 0, 4), substr($datos['periodo']['fin'], 0, 4), 2);
+				$this->html.= ' ';
+				$this->html.= $this->selectSemanas(2);
+				break;	
 			case 'mes':
-				$this->html = $this->selectMeses();
+				$this->html = "<span class=\"Mtextoimport\">Selecciona el mes:</span><br>";
+				$this->html.= $this->selectMeses(1);
+				$this->html.=' ';
+				$this->html.= $this->selectMeses(2);
 				break;		
 			case 'semana':
-				
+				$this->html = "<span class=\"Mtextoimport\">Selecciona la semana:</span><br>";
+				$this->html.= $this->selectSemanas(1);
+				$this->html.=' ';
+				$this->html.= $this->selectSemanas(2);
 				break;			
 		}
 		return $this->html;
 	}
 	
-	public function selectMeses()
-	{
-		$select="<label for='productos'>Selecciona el mes: </label><select name='mes' id='mes'>";
+	public function selectMeses($numero, $es_2002=false, $con_label = true)
+	{		
+		$select='';
+		
+		if ($numero == 1)
+		{
+			if ($con_label)
+				$select.="<label for='productos'>Selecciona el mes de inicio: </label>";
+			$select.="<select name='mes_inicio' id='mes_inicio'>";
+		}
+		if ($numero == 2)
+		{	
+			if ($con_label)
+				$select.="<label for='productos'>Selecciona el mes de termino: </label>";
+			$select.="<select name='mes_fin' id='mes_fin'>";
+		}
+		
 		$select.="<option value=''>---Selecciona---</option>";
-		$select.="<option value='1'>Enero</option>";
-		$select.="<option value='2'>Febrero</option>";
-		$select.="<option value='3'>Marzo</option>";
-		$select.="<option value='4'>Abril</option>";
-		$select.="<option value='5'>Mayo</option>";
-		$select.="<option value='6'>Junio</option>";
+		
+		if (!$es_2002)
+		{
+			$select.="<option value='1'>Enero</option>";
+			$select.="<option value='2'>Febrero</option>";
+			$select.="<option value='3'>Marzo</option>";
+			$select.="<option value='4'>Abril</option>";
+			$select.="<option value='5'>Mayo</option>";
+			$select.="<option value='6'>Junio</option>";
+		}
+		
 		$select.="<option value='7'>Julio</option>";
 		$select.="<option value='8'>Agosto</option>";
 		$select.="<option value='9'>Septiembre</option>";
@@ -115,69 +157,84 @@ class SATMO {
 		return $select.'</select>';
 	}
 	
-	public function selectAnios($anio_ini, $anio_fin)
+	public function selectAnios($anio_ini, $anio_fin, $numero)
 	{
-		$select="<label for='productos'>Selecciona el año: </label><select name='anio' id='anio'>";
-		for ($i=$anio_ini;$i<$anio_fin;$i++)
-		{
+		if ($numero == 1)
+			$select="<label for='productos'>Selecciona el año de inicio: </label><select name='anio_inicio' id='anio_inicio'>";
+		if ($numero == 2)
+			$select="<label for='productos'>Selecciona el año de termino: </label><select name='anio_fin' id='anio_fin'>";
+		
+		$select.="<option value=''>---Selecciona---</option>";
+		
+		for ($i=$anio_ini;$i<=$anio_fin;$i++)
 			$select.="<option value='".$i."'>".$i."</option>";
-		}
+	
 		return $select.'</select>';
 	}
 
 	/**
 	 * Las 46 semanas
 	 */
-	public function selectSemanas()
+	public function selectSemanas($numero, $es_2002=false)
 	{
-		$select="<label for='productos'>Selecciona el mes: </label><select name='mes' id='mes'>";
-		/*Semana 1: del 01/enero al 08/enero
-		Semana 2: del 09/enero al 16/enero
-		Semana 3: del 17/enero al 24/enero
-		Semana 4: del 25/enero al 01/febrero
-		Semana 5: del 02/febrero al 09/febrero
-		Semana 6: del 10/febrero al 17/febrero
-		Semana 7: del 18/febrero al 25/febrero
-		Semana 8: del 26/febrero al 05/marzo
-		Semana 9: del 06/marzo al 13/marzo
-		Semana 10: del 14/marzo al 21/marzo
-		Semana 11: del 22/marzo al 29/marzo
-		Semana 12: del 30/marzo al 06/abril
-		Semana 13: del 07/abril al 14/abril
-		Semana 14: del 15/abril al 22/abril
-		Semana 15: del 23/abril al 30/abril
-		Semana 16: del 01/mayo al 08/mayo
-		Semana 17: del 09/mayo al 16/mayo
-		Semana 18: del 17/mayo al 24/mayo
-		Semana 19: del 25/mayo al 01/junio
-		Semana 20: del 02/junio al 09/junio
-		Semana 21: del 10/junio al 17/junio
-		Semana 22: del 18/junio al 25/junio
-		Semana 23: del 26/junio al 03/julio
-		Semana 24: del 04/julio al 11/julio
-		Semana 25: del 12/julio al 19/julio
-		Semana 26: del 20/julio al 27/julio
-		Semana 27: del 28/julio al 04/agosto
-		Semana 28: del 05/agosto al 12/agosto
-		Semana 29: del 13/agosto al 20/agosto
-		Semana 30: del 21/agosto al 28/agosto
-		Semana 31: del 29/agosto al 05/septiembre
-		Semana 32: del 06/septiembre al 13/septiembre
-		Semana 33: del 14/septiembre al 21/septiembre
-		Semana 34: del 22/septiembre al 29/septiembre
-		Semana 35: del 30/septiembre al 07/octubre
-		Semana 36: del 08/octubre al 15/octubre
-		Semana 37: del 16/octubre al 23/octubre
-		Semana 38: del 24/octubre al 31/octubre
-		Semana 39: del 01/noviembre al 08/noviembre
-		Semana 40: del 09/noviembre al 16/noviembre
-		Semana 41: del 17/noviembre al 24/noviembre
-		Semana 42: del 25/noviembre al 02/diciembre
-		Semana 43: del 03/diciembre al 10/diciembre
-		Semana 44: del 11/diciembre al 18/diciembre
-		Semana 45: del 19/diciembre al 26/diciembre
-		Semana 46: del 27/diciembre al 31/diciembre
-		*/
+		if ($numero == 1)
+			$select="<label for='productos'>Selecciona la semana de inicio: </label><select name='semana_inicio' id='semana_inicio'>";
+		if ($numero == 2)
+			$select="<label for='productos'>Selecciona la semana de termino: </label><select name='semana_fin' id='semana_fin'>";
+		
+		$select.="<option value=''>---Selecciona---</option>";
+		
+		if (!$es_2002)
+		{
+			$select.="<option value=\"1\">Semana 1: del 01/enero al 08/enero</option>";
+			$select.="<option value=\"2\">Semana 2: del 09/enero al 16/enero</option>";
+			$select.="<option value=\"3\">Semana 3: del 17/enero al 24/enero</option>";
+			$select.="<option value=\"4\">Semana 4: del 25/enero al 01/febrero</option>";
+			$select.="<option value=\"5\">Semana 5: del 02/febrero al 09/febrero</option>";
+			$select.="<option value=\"6\">Semana 6: del 10/febrero al 17/febrero</option>";
+			$select.="<option value=\"7\">Semana 7: del 18/febrero al 25/febrero</option>";
+			$select.="<option value=\"8\">Semana 8: del 26/febrero al 05/marzo</option>";
+			$select.="<option value=\"9\">Semana 9: del 06/marzo al 13/marzo</option>";
+			$select.="<option value=\"10\">Semana 10: del 14/marzo al 21/marzo</option>";
+			$select.="<option value=\"11\">Semana 11: del 22/marzo al 29/marzo</option>";
+			$select.="<option value=\"12\">Semana 12: del 30/marzo al 06/abril</option>";
+			$select.="<option value=\"13\">Semana 13: del 07/abril al 14/abril</option>";
+			$select.="<option value=\"14\">Semana 14: del 15/abril al 22/abril</option>";
+			$select.="<option value=\"15\">Semana 15: del 23/abril al 30/abril</option>";
+			$select.="<option value=\"16\">Semana 16: del 01/mayo al 08/mayo</option>";
+			$select.="<option value=\"17\">Semana 17: del 09/mayo al 16/mayo</option>";
+			$select.="<option value=\"18\">Semana 18: del 17/mayo al 24/mayo</option>";
+			$select.="<option value=\"19\">Semana 19: del 25/mayo al 01/junio</option>";
+			$select.="<option value=\"20\">Semana 20: del 02/junio al 09/junio</option>";
+			$select.="<option value=\"21\">Semana 21: del 10/junio al 17/junio</option>";
+			$select.="<option value=\"22\">Semana 22: del 18/junio al 25/junio</option>";
+			$select.="<option value=\"23\">Semana 23: del 26/junio al 03/julio</option>";
+		}
+		
+		$select.="<option value=\"24\">Semana 24: del 04/julio al 11/julio</option>";
+		$select.="<option value=\"25\">Semana 25: del 12/julio al 19/julio</option>";
+		$select.="<option value=\"26\">Semana 26: del 20/julio al 27/julio</option>";
+		$select.="<option value=\"27\">Semana 27: del 28/julio al 04/agosto</option>";
+		$select.="<option value=\"28\">Semana 28: del 05/agosto al 12/agosto</option>";
+		$select.="<option value=\"29\">Semana 29: del 13/agosto al 20/agosto</option>";
+		$select.="<option value=\"30\">Semana 30: del 21/agosto al 28/agosto</option>";
+		$select.="<option value=\"31\">Semana 31: del 29/agosto al 05/septiembre</option>";
+		$select.="<option value=\"32\">Semana 32: del 06/septiembre al 13/septiembre</option>";
+		$select.="<option value=\"33\">Semana 33: del 14/septiembre al 21/septiembre</option>";
+		$select.="<option value=\"34\">Semana 34: del 22/septiembre al 29/septiembre</option>";
+		$select.="<option value=\"35\">Semana 35: del 30/septiembre al 07/octubre</option>";
+		$select.="<option value=\"36\">Semana 36: del 08/octubre al 15/octubre</option>";
+		$select.="<option value=\"37\">Semana 37: del 16/octubre al 23/octubre</option>";
+		$select.="<option value=\"38\">Semana 38: del 24/octubre al 31/octubre</option>";
+		$select.="<option value=\"39\">Semana 39: del 01/noviembre al 08/noviembre</option>";
+		$select.="<option value=\"40\">Semana 40: del 09/noviembre al 16/noviembre</option>";
+		$select.="<option value=\"41\">Semana 41: del 17/noviembre al 24/noviembre</option>";
+		$select.="<option value=\"42\">Semana 42: del 25/noviembre al 02/diciembre</option>";
+		$select.="<option value=\"43\">Semana 43: del 03/diciembre al 10/diciembre</option>";
+		$select.="<option value=\"44\">Semana 44: del 11/diciembre al 18/diciembre</option>";
+		$select.="<option value=\"45\">Semana 45: del 19/diciembre al 26/diciembre</option>";
+		$select.="<option value=\"46\">Semana 46: del 27/diciembre al 31/diciembre</option>";
+		return $select.'</select>';
 	}
 	
 	public function selectProductos()
