@@ -189,22 +189,26 @@ select {
 
 <body>
 	<?php 
-	//if (!empty($_POST))
-		//echo SATMO::validaForma($_POST);
-	?>
+	if (isset($_GET['situacion']) && $_GET['situacion'] == 1 && isset($_POST) && !empty($_POST))
+	{
+		echo SATMO::validaForma($_POST);
+	?>	
+		<span class="Mtextoimport">Tus datos fueron enviados correctamente.</span>
+	<?php } ?>
+	
 	<div id="errores" style="display: none;">
 		Por favor corrige los siguientes campos:
 		<ul></ul>
 	</div>
 	
-	<form action="index.php" method="post" class="Utextos">
+	<form action="index.php?situacion=1" method="post" class="Utextos">
 
 		<?php 
 		$SATMO=new SATMO();
 		echo $SATMO->selectProductos();
 		?>
 		<br> <br>
-      <label for="temporalidades">Temporalidad: </label> <select id="temporalidad" name="temporalidad" disabled="disabled">
+      <label for="temporalidad">Temporalidad: </label> <select id="temporalidad" name="temporalidad" disabled="disabled">
 			<option value="">---Selecciona---</option>
 		</select>
         
@@ -224,7 +228,7 @@ select {
 		<div id="map"></div><br><br>
 		<?php echo $SATMO->selectFormatos(); ?>
 		<br><br><label for="nombre">Nombre del solicitante: </label><input type="text" name="nombre" id="nombre" maxlength="255" size="45" placeholder="escribe tu nombre ..."/>
-		<br><br><label for="institucion">Instituci&oacute;n: </label><input type="text" name="institucion" id="institucion" maxlength="255" size="45" placeholder="escribe tu instituci&oacute;n ..."/>
+		<br><br><label for="institucion">Institución: </label><input type="text" name="institucion" id="institucion" maxlength="255" size="45" placeholder="escribe tu instituci&oacute;n ..."/>
 		<br><br><label for="correo">Correo (para recibir instrucciones de descarga): </label><input type="email" name="correo" id="correo" maxlength="255" size="43" placeholder="escribe tu correo ..."/>
 		<p>
 			<label for="objetivo">Objetivo: </label>

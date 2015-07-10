@@ -1,5 +1,7 @@
 function validaForma() {
 	var validacion = true;
+	$('#errores ul').empty();
+	
 
 	if ($('#productos').val() == "") {
 		$('label[for="productos"]').addClass("error");
@@ -8,12 +10,12 @@ function validaForma() {
 	} else
 		$('label[for="productos"]').removeClass("error");
 		
-	if ($('#temporalidades').val() == "") {
-		$('label[for="temporalidades"]').addClass("error");
+	if ($('#temporalidad').val() == "") {
+		$('label[for="temporalidad"]').addClass("error");
 		$('#errores ul').append("<li>La temporalidad no puede ser vacía</li>");
 		validacion = false;
 	} else
-		$('label[for="temporalidades"]').removeClass("error");
+		$('label[for="temporalidad"]').removeClass("error");
 	
 	if ($('#nombre').val() == "") {
 		$('label[for="nombre"]').addClass("error");
@@ -34,7 +36,7 @@ function validaForma() {
 		$('#errores ul').append("<li>El formato no puede ser vacío</li>");
 		validacion = false;
 	} else
-		$('label[for="institucion"]').removeClass("error");
+		$('label[for="formato"]').removeClass("error");
 	
 	if ($('#correo').val() == "") {
 		$('label[for="correo"]').addClass("error");
@@ -92,7 +94,7 @@ function validaForma() {
 		$('label[for="latitud_2"]').addClass("error");
 		$('#errores ul').append("<li>La latitud 2 no puede ser vacía</li>");
 		validacion = false;
-	} else if (parseInt($('#latitud_2').val()) > 33) {
+	} else if (parseInt($('#latitud_2').val()) > 3) {
 		$('label[for="latitud_2"]').addClass("error");
 		$('#errores ul').append("<li>La latitud 2 no puede ser mayor a 33</li>");
 		validacion = false;
@@ -103,7 +105,7 @@ function validaForma() {
 		$('label[for="longitud_2"]').addClass("error");
 		$('#errores ul').append("<li>La longitud 2 no puede ser vacía</li>");
 		validacion = false;
-	} else if (parseInt($('#longitud_2').val()) < -122) {
+	} else if (parseInt($('#longitud_2').val()) < -72) {
 		$('label[for="longitud_2"]').addClass("error");
 		$('#errores ul').append("<li>La longitud 2 no puede ser mayor a 33</li>");
 		validacion = false;
