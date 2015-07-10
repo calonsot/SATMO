@@ -126,13 +126,13 @@ class SATMO {
 		if ($numero == 1)
 		{
 			if ($con_label)
-				$select.="<label for='productos'>Selecciona el mes de inicio: </label>";
+				$select.="<label for='mes_inicio'>Selecciona el mes de inicio: </label>";
 			$select.="<select name='mes_inicio' id='mes_inicio'>";
 		}
 		if ($numero == 2)
 		{	
 			if ($con_label)
-				$select.="<label for='productos'>Selecciona el mes de termino: </label>";
+				$select.="<label for='mes_fin'>Selecciona el mes de termino: </label>";
 			$select.="<select name='mes_fin' id='mes_fin'>";
 		}
 		
@@ -140,17 +140,17 @@ class SATMO {
 		
 		if (!$es_2002)
 		{
-			$select.="<option value='1'>Enero</option>";
-			$select.="<option value='2'>Febrero</option>";
-			$select.="<option value='3'>Marzo</option>";
-			$select.="<option value='4'>Abril</option>";
-			$select.="<option value='5'>Mayo</option>";
-			$select.="<option value='6'>Junio</option>";
+			$select.="<option value='01'>Enero</option>";
+			$select.="<option value='02'>Febrero</option>";
+			$select.="<option value='03'>Marzo</option>";
+			$select.="<option value='04'>Abril</option>";
+			$select.="<option value='05'>Mayo</option>";
+			$select.="<option value='06'>Junio</option>";
 		}
 		
-		$select.="<option value='7'>Julio</option>";
-		$select.="<option value='8'>Agosto</option>";
-		$select.="<option value='9'>Septiembre</option>";
+		$select.="<option value='07'>Julio</option>";
+		$select.="<option value='08'>Agosto</option>";
+		$select.="<option value='09'>Septiembre</option>";
 		$select.="<option value='10'>Octubre</option>";
 		$select.="<option value='11'>Noviembre</option>";
 		$select.="<option value='12'>Diciembre</option>";
@@ -160,9 +160,9 @@ class SATMO {
 	public function selectAnios($anio_ini, $anio_fin, $numero)
 	{
 		if ($numero == 1)
-			$select="<label for='productos'>Selecciona el año de inicio: </label><select name='anio_inicio' id='anio_inicio'>";
+			$select="<label for='anio_inicio'>Selecciona el año de inicio: </label><select name='anio_inicio' id='anio_inicio'>";
 		if ($numero == 2)
-			$select="<label for='productos'>Selecciona el año de termino: </label><select name='anio_fin' id='anio_fin'>";
+			$select="<label for='anio_fin'>Selecciona el año de termino: </label><select name='anio_fin' id='anio_fin'>";
 		
 		$select.="<option value=''>---Selecciona---</option>";
 		
@@ -175,12 +175,22 @@ class SATMO {
 	/**
 	 * Las 46 semanas
 	 */
-	public function selectSemanas($numero, $es_2002=false)
+	public function selectSemanas($numero, $es_2002=false, $con_label = true)
 	{
+		$select = '';
+		
 		if ($numero == 1)
-			$select="<label for='productos'>Selecciona la semana de inicio: </label><select name='semana_inicio' id='semana_inicio'>";
+		{
+			if ($con_label)
+				$select.= "<label for='semana_inicio'>Selecciona la semana de inicio: </label>";		
+			$select.="<select name='semana_inicio' id='semana_inicio'>";
+		}
 		if ($numero == 2)
-			$select="<label for='productos'>Selecciona la semana de termino: </label><select name='semana_fin' id='semana_fin'>";
+		{
+			if ($con_label)
+				$select.= "<label for='semana_fin'>Selecciona la semana de termino: </label>";
+			$select.="<select name='semana_fin' id='semana_fin'>";
+		}
 		
 		$select.="<option value=''>---Selecciona---</option>";
 		
@@ -249,27 +259,24 @@ class SATMO {
 
 	public function selectFormatos()
 	{
-		$select="<label for='formato'>Formato de la imagen: </label><br><select name='formato'>";
+		$select="<label for='formato'>Formato de la imagen: </label><br><select name='formato' id='formato'>";
 		$select.="<option value=''>---Selecciona---</option>";
+		$primero = true;
+		
 		foreach ($this->formatos as $llave => $valor)
-			$valor == 'HDF' ? $select.="<option value='".$valor."' selected>".$valor."</option>" : $select.="<option value='".$valor."'>".$valor."</option>";
-
+		{	
+			if ($primero)
+			{	
+				$select.="<option value='".$valor."' selected>".$valor."</option>";
+				$primero = false;
+			} else
+				$select.="<option value='".$valor."'>".$valor."</option>";
+		}
 		return $select.'</select>';
 	}
 
 	public static function validaForma($parametros)
 	{
-		$errores='Tienes un error en los siguientes campos:<ul>';
-		if (!isset($_POST['producto']) || empty($_POST['producto']))
-			$errores.='<li>producto no puede ser vacío</li>';
-		if (!isset($_POST['temporalidad']) || empty($_POST['temporalidad']))
-			$errores.='<li>temporalidad no puede ser vacío</li>';
-		if (!isset($_POST['fecha_inicio']) || empty($_POST['fecha_inicio']))
-			$errores.='<li>La fecha de inicio no puede ser vacía</li>';
-		if (!isset($_POST['fecha_fin']) || empty($_POST['fecha_fin']))
-			$errores.='<li>La fecha de termino no puede ser vacía</li>';
-		if (!isset($_POST['fecha_fin']) || empty($_POST['fecha_fin']))
-			$errores.='<li>La fecha de termino no puede ser vacía</li>';
 		if (!isset($_POST['latitud_1']) || empty($_POST['latitud_1']) || (float) $_POST['latitud_1'] > 33.0)
 			$errores.='<li>latitud 1 no puede ser vacía o mayor a 33.0</li>';
 		if (!isset($_POST['longitud_1']) || empty($_POST['longitud_1']) || (float) $_POST['longitud_1'] < -122.0)
@@ -278,40 +285,36 @@ class SATMO {
 			$errores.='<li>latitud 2 no puede ser vacía o mayor a 3.0</li>';
 		if (!isset($_POST['longitud_2']) || empty($_POST['longitud_2']) || (float) $_POST['longitud_2'] > -72.0)
 			$errores.='<li>longitud 1 no puede ser vacía o menor a -72.0</li>';
-		if (!isset($_POST['formato']) || empty($_POST['formato']))
-			$errores.='<li>formato no puede ser vacío</li>';
-		if (!isset($_POST['nombre']) || empty($_POST['nombre']))
-			$errores.='<li>nombre no puede ser vacío</li>';
-                if (!isset($_POST['institucion']) || empty($_POST['institucion']))
-                        $errores.='<li>institucion no puede ser vacío</li>';
-		if (!isset($_POST['correo']) || empty($_POST['correo']))
-			$errores.='<li>correo no puede ser vacío</li>';
-		if (!self::validaCorreo($_POST['correo']))
-			$errores.='<li>correo no tiene la estructura correcta</li>';
-
-		if (preg_match('/<li>/', $errores)) {
-			return $errores;
-		} else {
-			$limpia_nombre=str_replace(array(":", "/", "\\", "+", "]", "[", "(", ")", "\'", ".", ","), "", $_POST['nombre']);
-			$_POST['nombre']=$limpia_nombre;
-			$archivo=str_replace(' ', '_', $limpia_nombre);
-			$date = date('Ymd-His');
-			self::escribeArchivo('./archivos/'.$date.'_'.$archivo.'.txt', self::juntaDatos($_POST));
-			self::send_mail(self::juntaDatos($_POST, true), $date.'_'.$archivo.'.txt');
-			return '<span class="Mtextoimport">Tu petición fue enviada correctamente.</span><br><br>';
-		}
+		
+		$limpia_nombre=str_replace(array(":", "/", "\\", "+", "]", "[", "(", ")", "\'", ".", ","), "", $_POST['nombre']);
+		$_POST['nombre']=$limpia_nombre;
+		$archivo=str_replace(' ', '_', $limpia_nombre);
+		$date = date('Ymd-His');
+		self::escribeArchivo('./archivos/'.$date.'_'.$archivo.'.txt', self::juntaDatos($_POST));
+		//self::send_mail(self::juntaDatos($_POST, true), $date.'_'.$archivo.'.txt');
+		return '<span class="Mtextoimport">Tu petición fue enviada correctamente.</span><br><br>';
 	}
 
 	public static function juntaDatos($atributos, $email=false)
 	{
-		$columnas = array('producto' => 'Par&aacute;metro o producto oce&aacute;nico', 'temporalidad' => 'Temporalidad', 'fecha_inicio' => 'Desde', 'fecha_fin'
- => 'Al', 'latitud_1' => 'Latitud 1', 'longitud_1' => 'Longitud1', 'latitud_2' => 'Latitud2', 'longitud_2' => 'Longitud2', 'formato' => 'Formato', 'nombre' => 'Nombre solicitante', 'institucion' => 'Instituci&oacute;n', 'correo' => 'correo');
+		$columnas = array('producto' => 'Par&aacute;metro o producto oce&aacute;nico', 'temporalidad' => 'Temporalidad', 'fecha_inicio' => 'Fecha inicio', 
+				'fecha_fin' => 'Fecha termino', 'anio_inicio' => 'Año de inicio', 'anio_termino' => 'Año de termino', 
+				'mes_inicio' => 'Mes de inicio', 'mes_termino' => 'Mes de termino', 'semana_inicio' => 'Semana de inicio', 'semana_fin' => 'Semana de termino', 
+				'latitud_1' => 'Latitud 1', 'longitud_1' => 'Longitud1', 'latitud_2' => 'Latitud2', 'longitud_2' => 'Longitud2', 
+				'formato' => 'Formato', 'nombre' => 'Nombre solicitante', 'institucion' => 'Instituci&oacute;n', 'correo' => 'correo', 'objetivo' => 'Objetivo');
 		$datos='';
 		$datos_email='';
-		foreach ($atributos as $llave => $valor)
+		
+		foreach ($columnas as $llave => $valor)
 		{
-			$datos.=$valor.',';
-			$datos_email.='<b>'.$columnas[$llave].':</b> '.$valor."<br>";
+			if (isset($atributos[$llave]))
+			{
+				$datos.=$atributos[$llave].',';
+				$datos_email.='<b>'.$valor.':</b> '.$atributos[$llave]."<br>";
+			} else {
+				$datos.=',';
+				$datos_email.='<b>'.$valor.':</b><br>';
+			}	
 		}
 	
 		if ($email)
@@ -343,6 +346,6 @@ class SATMO {
 		$mensaje   = $mensaje."<br><br>Baja el <a href=\"http://www.biodiversidad.gob.mx/pais/mares/satmo/solicitud_satmo/archivos/".$archivo."\" target=\"_blank\">archivo</a> directo del servidor.";
 		$cabeceras = "Content-type: text/html; charset=utf-8"."\r\n";
 		$cabeceras.= "From: noreply@conabio.gob.mx"."\r\n";
-                mail($para, $titulo, $mensaje, $cabeceras);
+        mail($para, $titulo, $mensaje, $cabeceras);
         }
 }

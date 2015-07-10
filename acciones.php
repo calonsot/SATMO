@@ -8,7 +8,8 @@ if (isset($_GET['producto']) && $_GET['producto'] != '')
 	$temporalidades=$SATMO->getTemporalidades($_GET['producto']);
 	
 	foreach ($temporalidades as $llave => $valor)
-		$valor == 'Compuestos mensuales' ? $select.="<option value='".$valor."' selected>".$valor."</option>" : $select.="<option value='".$valor."'>".$valor."</option>";
+		// Para poner compuestos mensuales como seleccionado
+		$select.="<option value='".$valor."'>".$valor."</option>";
 	echo $select;
 
 } elseif (isset($_GET['correo']) && $_GET['correo'] != '') {
@@ -35,9 +36,15 @@ if (isset($_GET['producto']) && $_GET['producto'] != '')
 	
 	if ($_GET['cual'] == 'mes')
 	{
-		echo $SATMO->selectMeses((Int) $_GET['numero'], true, false);		
+		if ($_GET['anio'] != "2002")
+			echo $SATMO->selectMeses((Int) $_GET['numero'], null, false);
+		else	
+			echo $SATMO->selectMeses((Int) $_GET['numero'], true, false);		
 	} elseif ($_GET['cual'] == 'semana') {
-		echo $SATMO->selectSemanas((Int) $_GET['numero'], true);	
+		if ($_GET['anio'] != "2002")
+			echo $SATMO->selectSemanas((Int) $_GET['numero'], null, false);
+		else		
+			echo $SATMO->selectSemanas((Int) $_GET['numero'], true, false);	
 	} else
 		echo "0";
 

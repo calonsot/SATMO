@@ -189,9 +189,14 @@ select {
 
 <body>
 	<?php 
-	if (!empty($_POST))
-		echo SATMO::validaForma($_POST);
+	//if (!empty($_POST))
+		//echo SATMO::validaForma($_POST);
 	?>
+	<div id="errores" style="display: none;">
+		Por favor corrige los siguientes campos:
+		<ul></ul>
+	</div>
+	
 	<form action="index.php" method="post" class="Utextos">
 
 		<?php 
@@ -218,10 +223,9 @@ select {
 			id="longitud_2"> ºW<br> <br>
 		<div id="map"></div><br><br>
 		<?php echo $SATMO->selectFormatos(); ?>
-		<br><br><label for="nombre">Nombre del solicitante: </label><input type="text" name="nombre" id="nombre" maxlength="255" size="45" placeholder="escribe tu nombre ...">
-		<br><br><label for="institucion">Instituci&oacute;n: </label><input type="text" name="institucion" id="institucion" maxlength="255" size="45" placeholder="escribe tu instituci&oacute;n .
-..">
-		<br><br><label for="correo">Correo (para recibir instrucciones de descarga): </label><input type="email" name="correo" id="correo" maxlength="255" size="43" placeholder="escribe tu correo ...">
+		<br><br><label for="nombre">Nombre del solicitante: </label><input type="text" name="nombre" id="nombre" maxlength="255" size="45" placeholder="escribe tu nombre ..."/>
+		<br><br><label for="institucion">Instituci&oacute;n: </label><input type="text" name="institucion" id="institucion" maxlength="255" size="45" placeholder="escribe tu instituci&oacute;n ..."/>
+		<br><br><label for="correo">Correo (para recibir instrucciones de descarga): </label><input type="email" name="correo" id="correo" maxlength="255" size="43" placeholder="escribe tu correo ..."/>
 		<p>
 			<label for="objetivo">Objetivo: </label>
 			<textarea name="objetivo" id="objetivo" rows="8" cols="60" placeholder="Escribe el objetivo que tendra la petición de tus datos ..."></textarea>
