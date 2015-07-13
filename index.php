@@ -197,7 +197,7 @@ select {
 	<?php } ?>
 	
 	<div id="errores" style="display: none;">
-		Por favor corrige los siguientes campos:
+		Existe un error en la solicitud, por favor revisa los campos resaltados:
 		<ul></ul>
 	</div>
 	
