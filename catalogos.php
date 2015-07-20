@@ -281,11 +281,13 @@ class SATMO {
 		$_POST['nombre']=$limpia_nombre;
 		$archivo=str_replace(' ', '_', $limpia_nombre);
 		$date = date('Ymd-His');
-		self::escribeArchivo('./archivos/'.$date.'_'.$archivo.'.txt', self::juntaDatos($_POST));
 		
-		//Para escribir en el archivo completo que contiene toda la bitacora
+		// Para escribir en el archivo completo que contiene toda la bitacora
 		$archivo_completo = './archivos/bitacora_completa.txt';
-		self::escribeArchivo($archivo_completo, self::juntaDatos($_POST));
+		self::escribeArchivo($archivo_completo, self::juntaDatos($_POST), true);
+		 
+		// Para escribir el archivo individual, va despues para no contarlo doble
+		self::escribeArchivo('./archivos/'.$date.'_'.$archivo.'.txt', self::juntaDatos($_POST));
 		
 		self::send_mail(self::juntaDatos($_POST, true), $date.'_'.$archivo.'.txt');
 	}
@@ -327,10 +329,15 @@ class SATMO {
 			return substr($datos, 0, strlen($datos)-1);
 	}
 
-	public static function escribeArchivo($archivo, $cadena)
+	public static function escribeArchivo($archivo, $cadena, $linea = false)
 	{
-		$fp = fopen($archivo,"w+") or die ("No se pudo escribir en el archivo");
-		fputs($fp,"\xEF\xBB\xBF".$cadena);
+		$fp = fopen($archivo,"a+") or die ("No se pudo escribir en el archivo");
+		
+		if ($linea)
+			fputs($fp,"\n".$cadena);
+		else
+			fputs($fp,"\xEF\xBB\xBF".$cadena);
+		
 		fclose($fp) or die ("No se pudo cerrar el archivo");
 	}
 
