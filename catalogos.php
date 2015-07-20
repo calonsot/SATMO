@@ -293,13 +293,13 @@ class SATMO {
 	public static function juntaDatos($atributos, $email=false)
 	{
 		$columnas = array('producto' => 'Par&aacute;metro o producto oce&aacute;nico', 'temporalidad' => 'Temporalidad', 'fecha_inicio' => 'Fecha inicio', 
-				'fecha_fin' => 'Fecha termino', 'anio_inicio' => 'Año de inicio', 'anio_termino' => 'Año de termino', 
-				'mes_inicio' => 'Mes de inicio', 'mes_termino' => 'Mes de termino', 'semana_inicio' => 'Semana de inicio', 'semana_fin' => 'Semana de termino', 
+				'fecha_fin' => 'Fecha termino', 'anio_inicio' => 'Año de inicio', 'anio_fin' => 'Año de termino', 
+				'mes_inicio' => 'Mes de inicio', 'mes_fin' => 'Mes de termino', 'semana_inicio' => 'Semana de inicio', 'semana_fin' => 'Semana de termino', 
 				'latitud_1' => 'Latitud 1', 'longitud_1' => 'Longitud1', 'latitud_2' => 'Latitud2', 'longitud_2' => 'Longitud2', 
 				'formato' => 'Formato', 'nombre' => 'Nombre solicitante', 'institucion' => 'Instituci&oacute;n', 'correo' => 'correo', 'objetivo' => 'Objetivo');
 		$datos='';
 		$datos_email='';
-		system('ls -ltr *.txt |wc -l', $cuantos_txt);
+		$cuantos_txt = system('ls -ltr archivos/*.txt |wc -l');
 		$identificador = ((Int) trim($cuantos_txt)) + 1;
 		
 		$datos.=$identificador.',';
