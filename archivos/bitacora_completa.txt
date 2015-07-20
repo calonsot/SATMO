@@ -1,1 +1,0 @@
-﻿1,Temperatura superficial del mar (4 µm) nocturna (SST4),Anomalías de Compuestos de 8 días,,,2003,,,,2,9,33.0,-122.0,3.0,-72.0,.HDF (con el valor georeferenciado. Proyección: Cilíndrica Equidistante. Datum: WGS84),Carlos Alonso,CONABIO,calonso@conabio.gob.mx,Necesito saber la poblacion
