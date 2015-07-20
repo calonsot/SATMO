@@ -177,7 +177,6 @@ select {
                 marker2.setPosition(latlng);
                 redraw();
         });
-
       }
 
       // Register an event listener to fire when the page finishes loading.

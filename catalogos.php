@@ -276,16 +276,7 @@ class SATMO {
 	}
 
 	public static function validaForma($parametros)
-	{
-		if (!isset($_POST['latitud_1']) || empty($_POST['latitud_1']) || (float) $_POST['latitud_1'] > 33.0)
-			$errores.='<li>latitud 1 no puede ser vacía o mayor a 33.0</li>';
-		if (!isset($_POST['longitud_1']) || empty($_POST['longitud_1']) || (float) $_POST['longitud_1'] < -122.0)
-			$errores.='<li>longitud 1 no puede ser vacía o menor a -122.0</li>';
-		if (!isset($_POST['latitud_2']) || empty($_POST['latitud_2']) || (float) $_POST['latitud_2'] < 3.0)
-			$errores.='<li>latitud 2 no puede ser vacía o mayor a 3.0</li>';
-		if (!isset($_POST['longitud_2']) || empty($_POST['longitud_2']) || (float) $_POST['longitud_2'] > -72.0)
-			$errores.='<li>longitud 1 no puede ser vacía o menor a -72.0</li>';
-		
+	{	
 		$limpia_nombre=str_replace(array(":", "/", "\\", "+", "]", "[", "(", ")", "\'", ".", ","), "", $_POST['nombre']);
 		$_POST['nombre']=$limpia_nombre;
 		$archivo=str_replace(' ', '_', $limpia_nombre);
@@ -312,7 +303,7 @@ class SATMO {
 		$identificador = ((Int) trim($cuantos_txt)) + 1;
 		
 		$datos.=$identificador.',';
-		$datos_email.='<b>Identificador: '.$identificador.':</b><br>';
+		$datos_email.='<b>Identificador: </b>'.$identificador.'<br>';
 		
 		foreach ($columnas as $llave => $valor)
 		{
@@ -325,6 +316,10 @@ class SATMO {
 				$datos_email.='<b>'.$valor.':</b><br>';
 			}	
 		}
+		
+		// Fecha del registro
+		$datos.=date('Ymd-His').',';
+		$datos_email.='<b>Fecha de registro: </b>'.date('Ymd-His').'<br>';
 	
 		if ($email)
 			return $datos_email;
