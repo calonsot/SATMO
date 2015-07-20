@@ -191,7 +191,7 @@ select {
 	<?php 
 	if (isset($_GET['situacion']) && $_GET['situacion'] == 1 && isset($_POST) && !empty($_POST))
 	{
-		echo SATMO::validaForma($_POST);
+		SATMO::validaForma($_POST);
 	?>	
 		<span class="Mtextoimport">Tus datos fueron enviados correctamente.</span>
 	<?php } ?>

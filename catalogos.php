@@ -291,8 +291,12 @@ class SATMO {
 		$archivo=str_replace(' ', '_', $limpia_nombre);
 		$date = date('Ymd-His');
 		self::escribeArchivo('./archivos/'.$date.'_'.$archivo.'.txt', self::juntaDatos($_POST));
-		//self::send_mail(self::juntaDatos($_POST, true), $date.'_'.$archivo.'.txt');
-		return '<span class="Mtextoimport">Tu petición fue enviada correctamente.</span><br><br>';
+		
+		//Para escribir en el archivo completo que contiene toda la bitacora
+		$archivo_completo = './archivos/bitacora_completa.txt';
+		self::escribeArchivo($archivo_completo, self::juntaDatos($_POST));
+		
+		self::send_mail(self::juntaDatos($_POST, true), $date.'_'.$archivo.'.txt');
 	}
 
 	public static function juntaDatos($atributos, $email=false)
@@ -304,6 +308,11 @@ class SATMO {
 				'formato' => 'Formato', 'nombre' => 'Nombre solicitante', 'institucion' => 'Instituci&oacute;n', 'correo' => 'correo', 'objetivo' => 'Objetivo');
 		$datos='';
 		$datos_email='';
+		system('ls -ltr *.txt |wc -l', $cuantos_txt);
+		$identificador = ((Int) trim($cuantos_txt)) + 1;
+		
+		$datos.=$identificador.',';
+		$datos_email.='<b>Identificador: '.$identificador.':</b><br>';
 		
 		foreach ($columnas as $llave => $valor)
 		{
