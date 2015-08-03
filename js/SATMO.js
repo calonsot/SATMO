@@ -74,7 +74,7 @@ function validaForma() {
 		validacion = false;
 	} else if (parseInt($('#latitud_1').val()) > 33) {
 		$('label[for="latitud_1"]').addClass("error");
-		$('#errores ul').append("<li>La latitud 1 no puede ser mayor a 33</li>");
+		$('#errores ul').append("<li>La latitud superior no puede ser mayor a 33 ni menor a 3</li>");
 		validacion = false;
 	} else
 		$('label[for="latitud_1"]').removeClass("error");
@@ -85,7 +85,7 @@ function validaForma() {
 		validacion = false;
 	} else if (parseInt($('#longitud_1').val()) < -122) {
 		$('label[for="longitud_1"]').addClass("error");
-		$('#errores ul').append("<li>La longitud 1 no puede ser mayor a 33</li>");
+		$('#errores ul').append("<li>La longitud izquierda no puede ser menor a -122 ni mayor a -72</li>");
 		validacion = false;
 	} else
 		$('label[for="longitud_1"]').removeClass("error");
@@ -94,9 +94,9 @@ function validaForma() {
 		$('label[for="latitud_2"]').addClass("error");
 		$('#errores ul').append("<li>La latitud 2 no puede ser vacía</li>");
 		validacion = false;
-	} else if (parseInt($('#latitud_2').val()) > 3) {
+	} else if (parseInt($('#latitud_2').val()) < 3) {
 		$('label[for="latitud_2"]').addClass("error");
-		$('#errores ul').append("<li>La latitud 2 no puede ser mayor a 33</li>");
+		$('#errores ul').append("<li>La latitud inferior no puede ser mayor a 33 ni menor a 3</li>");
 		validacion = false;
 	} else
 		$('label[for="latitud_2"]').removeClass("error");
@@ -105,9 +105,9 @@ function validaForma() {
 		$('label[for="longitud_2"]').addClass("error");
 		$('#errores ul').append("<li>La longitud 2 no puede ser vacía</li>");
 		validacion = false;
-	} else if (parseInt($('#longitud_2').val()) < -72) {
+	} else if (parseInt($('#longitud_2').val()) > -72) {
 		$('label[for="longitud_2"]').addClass("error");
-		$('#errores ul').append("<li>La longitud 2 no puede ser mayor a 33</li>");
+		$('#errores ul').append("<li>La longitud derecha no puede ser menor a -122 ni mayor a -72</li>");
 		validacion = false;
 	} else
 		$('label[for="longitud_2"]').removeClass("error");
@@ -414,6 +414,10 @@ $(document).on(
 								|| isNaN(parseFloat(($(this).val())))) {
 							$(this).val("33.0");
 						}
+						if (parseFloat($(this).val()) < 3
+								|| isNaN(parseFloat(($(this).val())))) {
+							$(this).val("3.0");
+						}
 					});
 
 			$('#latitud_2').change(
@@ -421,6 +425,10 @@ $(document).on(
 						if (parseFloat($(this).val()) < 3
 								|| isNaN(parseFloat(($(this).val())))) {
 							$(this).val("3.0");
+						}
+						if (parseFloat($(this).val()) > 33
+								|| isNaN(parseFloat(($(this).val())))) {
+							$(this).val("33.0");
 						}
 					});
 
@@ -430,6 +438,10 @@ $(document).on(
 								|| isNaN(parseFloat(($(this).val())))) {
 							$(this).val("-122.0");
 						}
+						if (parseFloat($(this).val()) > -72
+								|| isNaN(parseFloat(($(this).val())))) {
+							$(this).val("-72.0");
+						}
 					});
 
 			$('#longitud_2').change(
@@ -437,6 +449,10 @@ $(document).on(
 						if (parseFloat($(this).val()) > -72
 								|| isNaN(parseFloat(($(this).val())))) {
 							$(this).val("-72.0");
+						}					
+						if (parseFloat($(this).val()) < -122
+								|| isNaN(parseFloat(($(this).val())))) {
+							$(this).val("-122.0");
 						}
 					});
 		});

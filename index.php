@@ -215,13 +215,13 @@ select {
         	<div id="fecha"></div>	
 		</p>
 		
-		<span class="Mtextoimport">Seleccione un &aacute;rea sobre el mapa o introduzca las coordenadas extremas:</span><br><span>Predeterminadas: Latitud N: (3 º y 33 º). Longitud W: (-122 º y -72 º)</span><br><label for="latitud_1">Latitud N: </label> <input
+		<span class="Mtextoimport">Seleccione un &aacute;rea sobre el mapa o introduzca las coordenadas extremas:</span><br><span>Coordenadas extremas: Latitud N: (3 º y 33 º). Longitud W: (-122 º y -72 º)</span><br><label for="latitud_1">Latitud superior: </label> <input
 			type="text" name="latitud_1" value="33.0"
-			id="latitud_1"> ºN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="longitud_1">Longitud W: </label> <input
+			id="latitud_1"> ºN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="longitud_1">Longitud izquierda: </label> <input
 			type="text" name="longitud_1" value="-122.0"
-			id="longitud_1"> ºW<br> <label for="latitud_2">Latitud N: </label> <input
+			id="longitud_1"> ºW<br> <label for="latitud_2">Latitud inferior: </label> <input
 			type="text" name="latitud_2" value="3.0"
-			id="latitud_2"> ºN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="longitud_2">Longitud W: </label> <input
+			id="latitud_2"> ºN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="longitud_2">Longitud derecha: </label> <input
 			type="text" name="longitud_2" value="-72.0"
 			id="longitud_2"> ºW<br> <br>
 		<div id="map"></div><br><br>
